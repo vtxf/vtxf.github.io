@@ -10,7 +10,9 @@ tags:
     - 杂记
 ---
 
-# 克隆https://github.com/Huxpro/huxpro.github.io，搭建一个博客。过程如下：  
+# 搭建一个博客
+
+克隆https://github.com/Huxpro/huxpro.github.io，搭建一个博客。过程如下：  
 1. 修改_config.yml；
 2. 修改CNAME；
 3. 修改_posts文件夹中的文章，改成自己的；
