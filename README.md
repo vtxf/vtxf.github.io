@@ -12,7 +12,7 @@ vtxf-blogs/
 │   └── marked.min.js     # Markdown 渲染库（本地化，无外部 CDN）
 ├── blogs/                # 博客内容（JSL(YM+S/A/F)，年月模式）
 │   └── 2026/10/
-│       ├── 20261011-131000-欢迎来到vtxf博客.md
+│       ├── 20261011-131000-welcome.md
 │       └── 20261011-131100-示例HTML页面.html
 ├── scripts/
 │   └── gen-manifest.js   # 扫描 blogs/ 生成 posts.json
