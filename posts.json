@@ -1,14 +1,27 @@
 {
-  "generated": "20261011 110358",
-  "count": 2,
+  "generated": "20261011 205914",
+  "count": 3,
   "posts": [
+    {
+      "path": "blogs/2026/10/20261011-211500-markdown_demo.md",
+      "type": "md",
+      "title": "Markdown 渲染示例",
+      "date": "20261011 211500",
+      "description": "演示博客对 Markdown 各种语法的渲染效果：代码高亮与复制、表格、引用、图片灯箱、封面图等。",
+      "tags": [
+        "示例",
+        "博客"
+      ],
+      "cover": "../../../assets/avatar.png"
+    },
     {
       "path": "blogs/2026/10/20261011-131100-sample-html-page.html",
       "type": "html",
       "title": "示例HTML页面",
       "date": "20261011 131100",
       "description": "",
-      "tags": []
+      "tags": [],
+      "cover": ""
     },
     {
       "path": "blogs/2026/10/20261011-131000-welcome.md",
@@ -20,7 +33,8 @@
         "博客",
         "随笔",
         "开篇"
-      ]
+      ],
+      "cover": ""
     }
   ]
 }

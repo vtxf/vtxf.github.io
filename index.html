@@ -4,231 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>vtxf 的博客</title>
+  <link rel="icon" type="image/png" href="assets/avatar.png">
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs-github.min.css">
 </head>
 <body>
   <header class="site-header" data-u32-name="站点头部">
-    <div class="container">
-      <h1><a href="#/">vtxf 的博客</a></h1>
-      <p class="subtitle">AI · 科技 · 财经 · 学习</p>
+    <div class="container header-inner">
+      <img class="avatar" src="assets/avatar.png" alt="vtxf 头像" width="58" height="58">
+      <div class="site-id" data-u32-name="站点标识">
+        <h1><a href="#/">vtxf 的博客</a></h1>
+        <p class="subtitle">AI · 科技 · 财经 · 学习</p>
+      </div>
+      <div class="header-actions" data-u32-name="头部操作区">
+        <a class="icon-btn" href="https://github.com/vtxf" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub" data-u32-name="GitHub链接">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <div id="list-view" data-u32-name="文章列表视图">
+  <main id="main">
+    <div id="list-view" class="container" data-u32-name="文章列表视图">
       <div id="list-box" data-u32-name="文章列表容器"></div>
     </div>
 
     <div id="post-view" data-u32-name="文章内容视图" hidden>
-      <nav class="post-nav" data-u32-name="返回导航"><a href="#/">← 返回列表</a></nav>
-      <div id="post-box" data-u32-name="文章内容容器"></div>
+      <nav class="post-nav container" data-u32-name="返回导航"><a href="#/">← 返回列表</a></nav>
+      <div id="post-box" class="container" data-u32-name="文章内容容器"></div>
     </div>
   </main>
 
   <footer class="site-footer" data-u32-name="站点页脚">
     <div class="container">
-      vtxf.github.io · 内容位于 blogs/ 目录 · 由 index.html 动态渲染
+      vtxf.u32.cn · 内容位于 blogs/ 目录 · 纯静态渲染
     </div>
   </footer>
 
+  <div id="lightbox" data-u32-name="图片灯箱" hidden>
+    <button class="lb-close" type="button" aria-label="关闭" data-u32-name="灯箱关闭按钮">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <img id="lightbox-img" alt="">
+  </div>
+
   <script src="assets/marked.min.js"></script>
-  <script>
-  'use strict';
-  (function () {
-    var $ = function (sel) { return document.querySelector(sel); };
-    var POSTS = [];
-
-    /* ---------- 工具 ---------- */
-
-    function el(tag, cls, text) {
-      var node = document.createElement(tag);
-      if (cls) node.className = cls;
-      if (text !== undefined) node.textContent = text;
-      return node;
-    }
-
-    // '20261011 131000' → '2026-10-11 13:10'
-    function fmtDate(ts) {
-      var m = String(ts).match(/^(\d{4})(\d{2})(\d{2})[\s-]?(\d{2})?(\d{2})?/);
-      if (!m) return String(ts);
-      var s = m[1] + '-' + m[2] + '-' + m[3];
-      if (m[4]) s += ' ' + m[4] + ':' + (m[5] || '00');
-      return s;
-    }
-
-    // 把文章内相对路径解析为相对文章所在目录的路径
-    function resolveRel(rel, postPath) {
-      if (/^(https?:|mailto:|data:|#|\/\/)/i.test(rel)) return rel;
-      var dir = postPath.indexOf('/') >= 0 ? postPath.slice(0, postPath.lastIndexOf('/') + 1) : '';
-      return new URL(rel, 'http://d/' + dir).href.replace('http://d/', '');
-    }
-
-    function parseFrontMatter(text) {
-      var m = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
-      if (!m) return { meta: {}, body: text };
-      var meta = {};
-      m[1].split(/\r?\n/).forEach(function (line) {
-        var kv = line.match(/^([\w-]+):\s*(.*)$/);
-        if (!kv) return;
-        var v = kv[2].trim();
-        if (v.charAt(0) === '[' && v.charAt(v.length - 1) === ']') {
-          v = v.slice(1, -1).split(',').map(function (s) {
-            return s.trim().replace(/^["']|["']$/g, '');
-          }).filter(Boolean);
-        } else {
-          v = v.replace(/^["']|["']$/g, '');
-        }
-        meta[kv[1]] = v;
-      });
-      return { meta: meta, body: text.slice(m[0].length) };
-    }
-
-    function showTip(box, message, isError) {
-      box.textContent = '';
-      box.appendChild(el('p', 'tip' + (isError ? ' error' : ''), message));
-    }
-
-    /* ---------- 列表 ---------- */
-
-    function renderList() {
-      var box = $('#list-box');
-      box.textContent = '';
-      if (!POSTS.length) {
-        showTip(box, 'blogs/ 目录下还没有文章。');
-        return;
-      }
-      var ul = el('ul', 'post-list');
-      POSTS.forEach(function (p) {
-        var li = el('li', 'post-item');
-
-        var h3 = el('h3', 'post-title');
-        var a = el('a', null, p.title);
-        a.href = '#/' + p.path;
-        h3.appendChild(a);
-        li.appendChild(h3);
-
-        var meta = el('div', 'post-meta');
-        meta.appendChild(el('span', 'post-type', p.type === 'md' ? 'Markdown' : 'HTML'));
-        if (p.date) meta.appendChild(el('span', 'post-date', fmtDate(p.date)));
-        (p.tags || []).forEach(function (t) {
-          meta.appendChild(el('span', 'tag', t));
-        });
-        li.appendChild(meta);
-
-        if (p.description) li.appendChild(el('p', 'post-desc', p.description));
-        ul.appendChild(li);
-      });
-      box.appendChild(ul);
-      box.appendChild(el('p', 'list-footer-tip', '共 ' + POSTS.length + ' 篇 · 内容来自 blogs/ 目录（JSL 年月结构）'));
-    }
-
-    /* ---------- 文章页 ---------- */
-
-    function showMdPost(p) {
-      var box = $('#post-box');
-      fetch(p.path).then(function (res) {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.text();
-      }).then(function (text) {
-        var fm = parseFrontMatter(text);
-        var html = marked.parse(fm.body);
-
-        box.textContent = '';
-        var head = el('div', 'entry-head');
-        head.appendChild(el('h1', null, fm.meta.name || p.title));
-        var meta = el('div', 'entry-meta');
-        if (p.date) meta.appendChild(el('span', 'post-date', fmtDate(p.date)));
-        (fm.meta.tags instanceof Array ? fm.meta.tags : fm.meta.tags ? [fm.meta.tags] : []).forEach(function (t) {
-          meta.appendChild(el('span', 'tag', t));
-        });
-        head.appendChild(meta);
-        box.appendChild(head);
-
-        var body = el('div', 'markdown-body');
-        body.innerHTML = html;
-        // 相对路径修正：图片/链接相对于文章所在目录
-        body.querySelectorAll('img[src], a[href]').forEach(function (node) {
-          var attr = node.hasAttribute('src') ? 'src' : 'href';
-          node.setAttribute(attr, resolveRel(node.getAttribute(attr), p.path));
-          if (attr === 'href' && /\.md$|\.html$/i.test(node.getAttribute('href'))) {
-            node.href = '#/' + node.getAttribute('href');  // 站内文章互链走 hash 路由
-          }
-        });
-        box.appendChild(body);
-      }).catch(function (err) {
-        showTip(box, '文章加载失败：' + err.message, true);
-      });
-    }
-
-    function showHtmlPost(p) {
-      var box = $('#post-box');
-      box.textContent = '';
-      var head = el('div', 'entry-head');
-      head.appendChild(el('h1', null, p.title));
-      var meta = el('div', 'entry-meta');
-      meta.appendChild(el('span', 'post-type', 'HTML'));
-      if (p.date) meta.appendChild(el('span', 'post-date', fmtDate(p.date)));
-      head.appendChild(meta);
-      box.appendChild(head);
-
-      var frame = el('iframe', 'html-frame');
-      frame.setAttribute('data-u32-name', 'HTML文章内嵌框');
-      frame.src = p.path;
-      frame.title = p.title;
-      box.appendChild(frame);
-    }
-
-    function showPost(p) {
-      $('#list-view').hidden = true;
-      $('#post-view').hidden = false;
-      if (p.type === 'html') showHtmlPost(p);
-      else showMdPost(p);
-    }
-
-    function showList() {
-      $('#post-view').hidden = true;
-      $('#list-view').hidden = false;
-    }
-
-    /* ---------- 路由 ---------- */
-
-    function route() {
-      var h = decodeURIComponent(location.hash.replace(/^#/, ''));
-      if (!h || h === '/') {
-        showList();
-        return;
-      }
-      h = h.replace(/^\//, '');  // '#/blogs/...' 与清单路径 'blogs/...' 对齐
-      var p = POSTS.find(function (x) { return x.path === h; });
-      if (p) {
-        showPost(p);
-      } else {
-        $('#list-view').hidden = true;
-        $('#post-view').hidden = false;
-        showTip($('#post-box'), '文章不存在：' + h + '。可能已被移动或重命名。', true);
-      }
-    }
-
-    function showError(message) {
-      $('#list-view').hidden = false;
-      $('#post-view').hidden = true;
-      showTip($('#list-box'), message, true);
-    }
-
-    /* ---------- 启动 ---------- */
-
-    fetch('posts.json').then(function (res) {
-      if (!res.ok) throw new Error('posts.json 加载失败（HTTP ' + res.status + '）');
-      return res.json();
-    }).then(function (data) {
-      POSTS = (data && data.posts) || [];
-      renderList();
-      window.addEventListener('hashchange', route);
-      route();
-    }).catch(function (err) {
-      showError('清单加载失败：' + err.message + '。请通过 http 服务器访问（不能双击 file:// 打开），或在仓库根目录运行 node scripts/gen-manifest.js 重新生成清单。');
-    });
-  })();
-  </script>
+  <script src="assets/highlight.min.js"></script>
+  <script src="assets/app.js"></script>
 </body>
 </html>

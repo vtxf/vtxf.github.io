@@ -63,11 +63,13 @@ function makeEntry(relPath, type) {
   let title = topic;
   let description = '';
   let tags = [];
+  let cover = '';
   if (type === 'md') {
     const text = fs.readFileSync(path.join(BLOGS_DIR, relPath), 'utf8');
     const meta = parseFrontMatter(text);
     if (meta.name) title = String(meta.name);
     if (meta.description) description = String(meta.description);
+    if (meta.cover) cover = String(meta.cover);
     if (Array.isArray(meta.tags)) tags = meta.tags;
     else if (meta.tags) tags = [String(meta.tags)];
   } else {
@@ -82,7 +84,8 @@ function makeEntry(relPath, type) {
     title,
     date: m ? m[1] + ' ' + m[2] : '',
     description,
-    tags
+    tags,
+    cover
   };
 }
 
