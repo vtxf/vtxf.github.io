@@ -70,6 +70,11 @@ function makeEntry(relPath, type) {
     if (meta.description) description = String(meta.description);
     if (Array.isArray(meta.tags)) tags = meta.tags;
     else if (meta.tags) tags = [String(meta.tags)];
+  } else {
+    // html 条目：从 <title> 取标题，避免 ASCII 文件名直接暴露为标题
+    const text = fs.readFileSync(path.join(BLOGS_DIR, relPath), 'utf8');
+    const m = text.match(/<title>([\s\S]*?)<\/title>/i);
+    if (m) title = m[1].trim();
   }
   return {
     path: 'blogs/' + relPath,
