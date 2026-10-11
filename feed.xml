@@ -5,26 +5,26 @@
   <link>https://vtxf.u32.cn/</link>
   <description>AI 前沿、技术笔记、财经观察、学习成长</description>
   <language>zh-CN</language>
-  <lastBuildDate>Sun, 11 Oct 2026 13:17:15 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 11 Oct 2026 13:22:03 GMT</lastBuildDate>
   <atom:link href="https://vtxf.u32.cn/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Markdown 渲染示例</title>
       <link>https://vtxf.u32.cn/#/blogs/2026/10/20261011-211500-markdown_demo.md</link>
       <guid isPermaLink="false">blogs/2026/10/20261011-211500-markdown_demo.md</guid>
-      <pubDate>Sun, 11 Oct 2026 21:15:00 GMT</pubDate>
+      <pubDate>Sun, 11 Oct 2026 13:15:00 GMT</pubDate>
       <description>演示博客对 Markdown 各种语法的渲染效果：代码高亮与复制、表格、引用、图片灯箱、封面图等。</description>
     </item>
     <item>
       <title>示例HTML页面</title>
       <link>https://vtxf.u32.cn/#/blogs/2026/10/20261011-131100-sample-html-page.html</link>
       <guid isPermaLink="false">blogs/2026/10/20261011-131100-sample-html-page.html</guid>
-      <pubDate>Sun, 11 Oct 2026 13:11:00 GMT</pubDate>
+      <pubDate>Sun, 11 Oct 2026 05:11:00 GMT</pubDate>
     </item>
     <item>
       <title>欢迎来到vtxf博客</title>
       <link>https://vtxf.u32.cn/#/blogs/2026/10/20261011-131000-welcome.md</link>
       <guid isPermaLink="false">blogs/2026/10/20261011-131000-welcome.md</guid>
-      <pubDate>Sun, 11 Oct 2026 13:10:00 GMT</pubDate>
+      <pubDate>Sun, 11 Oct 2026 05:10:00 GMT</pubDate>
       <description>vtxf 博客的开篇：介绍我是谁、这个博客写什么、为什么开始记录，以及你如何跟上更新。</description>
     </item>
 </channel>

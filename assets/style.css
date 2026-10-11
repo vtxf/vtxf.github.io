@@ -829,6 +829,99 @@ body.html-mode .site-footer { display: none; }
 
 #lightbox .lb-close svg { width: 20px; height: 20px; }
 
+/* ---------- 关于页 ---------- */
+
+#about-view { padding-bottom: 56px; }
+
+.about-card {
+  margin: 26px auto 0;
+  max-width: 460px;
+  padding: 36px 32px;
+  text-align: center;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.about-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px var(--line), var(--shadow-sm);
+}
+
+.about-name {
+  margin: 14px 0 2px;
+  font-size: 24px;
+}
+
+.about-line {
+  margin: 0 0 22px;
+  font-size: 14px;
+  color: var(--ink-faint);
+  letter-spacing: .4px;
+}
+
+.about-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.contact-item .c-label {
+  flex: none;
+  width: 38px;
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+.contact-item .c-value {
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  color: var(--ink);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+
+a.c-value:hover { color: var(--accent); }
+
+.contact-item .meta-btn { flex: none; }
+
+/* ---------- Mermaid 图 ---------- */
+
+.mermaid-chart {
+  margin: 18px 0;
+  padding: 18px 14px;
+  text-align: center;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.mermaid-chart svg { max-width: 100%; height: auto; }
+
+.markdown-body pre.mermaid-source {
+  background: var(--code-bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  overflow-x: auto;
+}
+
 /* ---------- 状态提示 ---------- */
 
 .tip {

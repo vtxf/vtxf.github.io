@@ -33,6 +33,9 @@
         </button>
       </div>
       <div class="header-actions" data-u32-name="头部操作区">
+        <a class="icon-btn" href="#/about" title="关于" aria-label="关于" data-u32-name="关于入口">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </a>
         <a class="icon-btn" href="#/archive" title="归档" aria-label="归档" data-u32-name="归档入口">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
         </a>
@@ -51,6 +54,29 @@
     <div id="archive-view" class="container" data-u32-name="归档视图" hidden>
       <nav class="post-nav" data-u32-name="归档返回导航"><a href="#/">← 返回列表</a></nav>
       <div id="archive-box" data-u32-name="归档容器"></div>
+    </div>
+
+    <div id="about-view" class="container" data-u32-name="关于视图" hidden>
+      <nav class="post-nav" data-u32-name="关于返回导航"><a href="#/">← 返回列表</a></nav>
+      <div class="about-card" data-u32-name="关于卡片">
+        <img class="about-avatar" src="assets/avatar.png" alt="vtxf 头像" width="88" height="88">
+        <h2 class="about-name">vtxf</h2>
+        <p class="about-line">AI · 科技 · 财经 · 学习</p>
+        <div class="about-contacts" data-u32-name="联系方式">
+          <div class="contact-item">
+            <span class="c-label">微信</span>
+            <span class="c-value">vtxf3d</span>
+            <button id="copy-wechat" class="meta-btn" type="button" data-u32-name="复制微信号按钮">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>复制</span>
+            </button>
+          </div>
+          <div class="contact-item">
+            <span class="c-label">邮箱</span>
+            <a class="c-value" href="mailto:vtxf@qq.com">vtxf@qq.com</a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="post-view" data-u32-name="文章内容视图" hidden>

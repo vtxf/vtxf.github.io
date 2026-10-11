@@ -145,6 +145,95 @@
     });
   }
 
+  /* ---------- 按需异步加载（Mermaid / KaTeX，检测到对应内容才加载） ---------- */
+
+  function loadScript(src, cb) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function () { cb(null); };
+    s.onerror = function () { cb(new Error('加载失败：' + src)); };
+    document.head.appendChild(s);
+  }
+
+  // Mermaid 图：```mermaid 代码块 → 异步渲染为 SVG；失败降级为源码
+  var mermaidLoading = false;
+
+  function renderMermaid(root) {
+    var blocks = root.querySelectorAll('pre > code.language-mermaid');
+    if (!blocks.length) return;
+
+    var keepSource = function (ns) {
+      Array.prototype.forEach.call(ns, function (n) {
+        if (!n.querySelector('svg')) {
+          var pre = document.createElement('pre');
+          pre.className = 'mermaid-source';
+          pre.textContent = n.textContent;
+          n.replaceWith(pre);
+        }
+      });
+    };
+
+    Array.prototype.forEach.call(blocks, function (code) {
+      var holder = el('div', 'mermaid-chart');
+      holder.setAttribute('data-u32-name', 'Mermaid图');
+      holder.textContent = code.textContent;
+      code.parentNode.replaceWith(holder);
+    });
+    var nodes = root.querySelectorAll('.mermaid-chart');
+
+    var run = function () {
+      try {
+        window.mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
+        window.mermaid.run({ nodes: Array.prototype.slice.call(nodes), suppressErrors: true })
+          .catch(function () { keepSource(nodes); });
+      } catch (e) { keepSource(nodes); }
+    };
+
+    if (window.mermaid) { run(); return; }
+    if (mermaidLoading) return;  // 首次加载中，稍后的文章重新进入时会再次调用
+    mermaidLoading = true;
+    loadScript('assets/mermaid.min.js', function (err) {
+      mermaidLoading = false;
+      if (err) keepSource(nodes);
+      else run();
+    });
+  }
+
+  // KaTeX 数学公式：检出 $$ / \[ / \( 分隔符才异步加载渲染
+  var katexLoading = false;
+
+  function renderMath(root, bodyText) {
+    if (!/\$\$|\\\[|\\\(/.test(bodyText)) return;
+
+    var run = function () {
+      try {
+        window.renderMathInElement(root, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '\\[', right: '\\]', display: true },
+            { left: '\\(', right: '\\)', display: false }
+          ],
+          throwOnError: false
+        });
+      } catch (e) { /* 渲染失败保留原文 */ }
+    };
+
+    if (window.renderMathInElement) { run(); return; }
+    if (katexLoading) return;
+    katexLoading = true;
+    var css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = 'assets/katex/katex.min.css';
+    document.head.appendChild(css);
+    loadScript('assets/katex/katex.min.js', function (err) {
+      if (err) { katexLoading = false; return; }
+      loadScript('assets/katex/auto-render.min.js', function (err2) {
+        katexLoading = false;
+        if (!err2) run();
+      });
+    });
+  }
+
   /* ---------- 图片灯箱 + 懒加载 ---------- */
 
   var lightbox = $('#lightbox');
@@ -466,8 +555,10 @@
       lazyImages(body);
       box.appendChild(body);
 
+      renderMermaid(body);   // 先于 enhanceCode：mermaid 块提取为图容器，不进代码块包装
       enhanceCode(body);
       appendPostFooter(box, p);
+      renderMath(body, fm.body);
       replayFade(box);
       document.title = title + ' - vtxf 的博客';
     }).catch(function (err) {
@@ -527,10 +618,14 @@
   function setView(name) {
     $('#list-view').hidden = name !== 'list';
     $('#archive-view').hidden = name !== 'archive';
+    $('#about-view').hidden = name !== 'about';
     $('#post-view').hidden = name !== 'post';
     if (name === 'list') {
       if (listBox) renderResults();
       document.title = 'vtxf 的博客';
+    }
+    if (name === 'about') {
+      document.title = '关于 - vtxf 的博客';
     }
   }
 
@@ -567,6 +662,23 @@
     });
   }
 
+  /* ---------- 关于页（微信复制） ---------- */
+
+  function initAbout() {
+    var btn = $('#copy-wechat');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      copyText('vtxf3d').then(function () {
+        btn.classList.add('done');
+        btn.replaceChild(el('span', null, '已复制'), btn.lastChild);
+        setTimeout(function () {
+          btn.classList.remove('done');
+          btn.replaceChild(el('span', null, '复制'), btn.lastChild);
+        }, 1600);
+      });
+    });
+  }
+
   /* ---------- 路由 ---------- */
 
   function route() {
@@ -582,6 +694,10 @@
     }
     if (h === '/archive') {
       showArchive();
+      return;
+    }
+    if (h === '/about') {
+      setView('about');
       return;
     }
     h = h.replace(/^\//, '');  // '#/blogs/...' 与清单路径 'blogs/...' 对齐
@@ -615,6 +731,7 @@
     buildToolbar();
     initSearch();
     initBackTop();
+    initAbout();
     window.addEventListener('hashchange', route);
     route();
   }).catch(function (err) {
