@@ -1,0 +1,38 @@
+# push 到 main 且 blogs/ 或清单脚本变化时，自动重新生成 posts.json 并提交
+# 提交信息带 [skip ci]，避免自身提交再次触发工作流
+name: Update posts manifest
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blogs/**'
+      - 'scripts/gen-manifest.js'
+
+permissions:
+  contents: write
+
+jobs:
+  manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate posts.json
+        run: node scripts/gen-manifest.js
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add posts.json
+          if git diff --cached --quiet; then
+            echo "posts.json 无变化，跳过提交"
+          else
+            git commit -m "[skip ci] chore: 自动更新 posts.json"
+            git push
+          fi

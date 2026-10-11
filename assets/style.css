@@ -1,0 +1,284 @@
+/* vtxf-blogs 样式 —— 系统字体栈、无外部资源、响应式 */
+
+* { box-sizing: border-box; }
+
+:root {
+  --ink: #1f2328;
+  --ink-soft: #57606a;
+  --line: #d8dee4;
+  --bg: #ffffff;
+  --bg-soft: #f6f8fa;
+  --accent: #0969da;      /* 链接/标签主色（蓝，色盲友好） */
+  --accent-soft: #ddf4ff;
+  --danger: #cf222e;      /* 错误专用，不做红绿对比 */
+  --code-bg: #f6f8fa;
+  --radius: 8px;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+.container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- 头部 ---------- */
+
+.site-header {
+  padding: 36px 0 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+}
+
+.site-header h1 a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-header h1 a:hover { color: var(--accent); }
+
+.site-header .subtitle {
+  margin: 6px 0 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+/* ---------- 列表 ---------- */
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-item {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.post-item:last-child { border-bottom: none; }
+
+.post-item .post-title {
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.post-item .post-title a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.post-item .post-title a:hover { color: var(--accent); }
+
+.post-item .post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.post-type {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.post-item .post-desc {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.list-footer-tip {
+  padding: 18px 0 40px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ---------- 文章页 ---------- */
+
+.post-nav {
+  padding: 18px 0 0;
+  font-size: 14px;
+}
+
+.post-nav a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.post-nav a:hover { text-decoration: underline; }
+
+.entry-head {
+  padding: 14px 0 6px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.entry-head h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  line-height: 1.35;
+}
+
+.entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--ink-soft);
+  padding-bottom: 12px;
+}
+
+/* iframe 整页嵌入 HTML 条目（固定像素高度，避开移动端 vh 问题） */
+.html-frame {
+  width: 100%;
+  height: 720px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+@media (max-width: 640px) {
+  .html-frame { height: 560px; }
+}
+
+/* ---------- Markdown 正文排版 ---------- */
+
+.markdown-body { padding-bottom: 48px; }
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  line-height: 1.4;
+  margin: 28px 0 12px;
+  font-weight: 650;
+}
+
+.markdown-body h1 { font-size: 24px; }
+.markdown-body h2 { font-size: 21px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.markdown-body h3 { font-size: 18px; }
+
+.markdown-body p { margin: 12px 0; }
+
+.markdown-body a { color: var(--accent); }
+
+.markdown-body img {
+  max-width: 100%;
+  border-radius: var(--radius);
+}
+
+.markdown-body code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Courier New", monospace;
+  font-size: 0.9em;
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.markdown-body pre {
+  background: var(--code-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+
+.markdown-body pre code {
+  background: none;
+  padding: 0;
+  font-size: 13.5px;
+}
+
+.markdown-body blockquote {
+  margin: 12px 0;
+  padding: 2px 16px;
+  border-left: 4px solid var(--accent);
+  background: var(--bg-soft);
+  color: var(--ink-soft);
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  margin: 14px 0;
+  width: 100%;
+  font-size: 14.5px;
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid var(--line);
+  padding: 7px 12px;
+  text-align: left;
+}
+
+.markdown-body th { background: var(--bg-soft); }
+
+.markdown-body hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 28px 0;
+}
+
+.markdown-body ul,
+.markdown-body ol { padding-left: 1.6em; }
+
+/* ---------- 状态提示 ---------- */
+
+.tip {
+  margin: 40px 0;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.tip.error { color: var(--danger); }
+
+/* ---------- 页脚 ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 20px 0 36px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  text-align: center;
+}
