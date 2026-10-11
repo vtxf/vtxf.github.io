@@ -1,0 +1,16 @@
+<script>
+window.addEventListener('load', function () {
+  var iv = setInterval(function () {
+    if (!document.querySelector('.tag-chip')) return;
+    clearInterval(iv);
+    setTimeout(function () {
+      var header = document.querySelector('.site-header');
+      var bar = document.querySelector('.tag-bar');
+      var hr = header.getBoundingClientRect();
+      var br = bar.getBoundingClientRect();
+      var cs = getComputedStyle(bar.parentNode);
+      document.title = 'GAP:' + Math.round(br.top - hr.bottom) + 'px(与头部底线) padding=' + cs.paddingTop;
+    }, 200);
+  }, 50);
+});
+</script>

@@ -291,9 +291,13 @@
     listBox = $('#list-box');
     listBox.textContent = '';
 
+    var toolbar = el('div', 'list-toolbar');
+    toolbar.setAttribute('data-u32-name', '列表工具栏');
+    listBox.appendChild(toolbar);
+
     tagBar = el('div', 'tag-bar');
     tagBar.setAttribute('data-u32-name', '标签筛选栏');
-    listBox.appendChild(tagBar);
+    toolbar.appendChild(tagBar);
 
     postUl = el('ul', 'post-list');
     postUl.setAttribute('data-u32-name', '文章列表');
