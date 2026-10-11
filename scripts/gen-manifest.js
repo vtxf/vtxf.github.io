@@ -19,6 +19,11 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const BLOGS_DIR = path.join(ROOT, 'blogs');
 const OUT_FILE = path.join(ROOT, 'posts.json');
+const FEED_FILE = path.join(ROOT, 'feed.xml');
+const SITEMAP_FILE = path.join(ROOT, 'sitemap.xml');
+const SITE = 'https://vtxf.u32.cn';
+const SITE_TITLE = 'vtxf 的博客';
+const SITE_DESC = 'AI 前沿、技术笔记、财经观察、学习成长';
 
 const TS_DIR_RE = /^(\d{8})-(\d{6})-(.+)$/;
 
@@ -130,8 +135,71 @@ function main() {
 
   const out = { generated, count: entries.length, posts: entries };
   fs.writeFileSync(OUT_FILE, JSON.stringify(out, null, 2) + '\n', 'utf8');
+  writeFeed(entries, generated);
+  writeSitemap(generated);
   console.log('已生成 posts.json：%d 篇文章（%s）', entries.length, generated);
+  console.log('已生成 feed.xml 与 sitemap.xml');
   for (const e of entries) console.log('  [' + e.type + '] ' + e.date + ' ' + e.title);
+}
+
+function xmlEscape(s) {
+  return String(s).replace(/[<>&"']/g, c => (
+    { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' }[c]
+  ));
+}
+
+// '20261011 131000' → RFC 822（本地时区）
+function rfc822(ts) {
+  const m = String(ts).match(/^(\d{4})(\d{2})(\d{2})\s(\d{2})(\d{2})(\d{2})?$/);
+  if (!m) return '';
+  return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +(m[6] || 0)).toUTCString();
+}
+
+function writeFeed(entries, generated) {
+  const items = entries.map(e => {
+    const lines = [
+      '    <item>',
+      '      <title>' + xmlEscape(e.title) + '</title>',
+      '      <link>' + SITE + '/#/' + e.path + '</link>',
+      '      <guid isPermaLink="false">' + e.path + '</guid>'
+    ];
+    if (e.date) lines.push('      <pubDate>' + rfc822(e.date) + '</pubDate>');
+    if (e.description) lines.push('      <description>' + xmlEscape(e.description) + '</description>');
+    lines.push('    </item>');
+    return lines.join('\n');
+  });
+  const xml = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
+    '<channel>',
+    '  <title>' + xmlEscape(SITE_TITLE) + '</title>',
+    '  <link>' + SITE + '/</link>',
+    '  <description>' + xmlEscape(SITE_DESC) + '</description>',
+    '  <language>zh-CN</language>',
+    '  <lastBuildDate>' + rfc822(generated) + '</lastBuildDate>',
+    '  <atom:link href="' + SITE + '/feed.xml" rel="self" type="application/rss+xml" />',
+    items.join('\n'),
+    '</channel>',
+    '</rss>',
+    ''
+  ].join('\n');
+  fs.writeFileSync(FEED_FILE, xml, 'utf8');
+}
+
+function writeSitemap(generated) {
+  const lastmod = String(generated).replace(/^(\d{4})(\d{2})(\d{2}).*$/, '$1-$2-$3');
+  const xml = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    '  <url>',
+    '    <loc>' + SITE + '/</loc>',
+    '    <lastmod>' + lastmod + '</lastmod>',
+    '    <changefreq>weekly</changefreq>',
+    '  </url>',
+    '</urlset>',
+    ''
+  ].join('\n');
+  fs.writeFileSync(SITEMAP_FILE, xml, 'utf8');
 }
 
 main();

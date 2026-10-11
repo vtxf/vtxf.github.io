@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>vtxf 的博客</title>
+  <meta name="description" content="vtxf 的个人博客：AI 前沿、技术笔记、财经观察、学习成长。">
+  <meta property="og:site_name" content="vtxf 的博客">
+  <meta property="og:title" content="vtxf 的博客">
+  <meta property="og:description" content="AI 前沿、技术笔记、财经观察、学习成长">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vtxf.u32.cn/">
+  <meta property="og:image" content="https://vtxf.u32.cn/assets/avatar.png">
+  <link rel="canonical" href="https://vtxf.u32.cn/">
+  <link rel="alternate" type="application/rss+xml" title="vtxf 的博客" href="https://vtxf.u32.cn/feed.xml">
   <link rel="icon" type="image/png" href="assets/avatar.png">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs-github.min.css">
@@ -16,7 +25,17 @@
         <h1><a href="#/">vtxf 的博客</a></h1>
         <p class="subtitle">AI · 科技 · 财经 · 学习</p>
       </div>
+      <div class="search-box" data-u32-name="站内搜索框">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="search-input" type="search" placeholder="搜索标题、摘要、标签" autocomplete="off" aria-label="搜索标题、摘要、标签">
+        <button id="search-clear" type="button" aria-label="清空搜索" data-u32-name="清空搜索按钮" hidden>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
       <div class="header-actions" data-u32-name="头部操作区">
+        <a class="icon-btn" href="#/archive" title="归档" aria-label="归档" data-u32-name="归档入口">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+        </a>
         <a class="icon-btn" href="https://github.com/vtxf" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub" data-u32-name="GitHub链接">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
         </a>
@@ -27,6 +46,11 @@
   <main id="main">
     <div id="list-view" class="container" data-u32-name="文章列表视图">
       <div id="list-box" data-u32-name="文章列表容器"></div>
+    </div>
+
+    <div id="archive-view" class="container" data-u32-name="归档视图" hidden>
+      <nav class="post-nav" data-u32-name="归档返回导航"><a href="#/">← 返回列表</a></nav>
+      <div id="archive-box" data-u32-name="归档容器"></div>
     </div>
 
     <div id="post-view" data-u32-name="文章内容视图" hidden>
@@ -40,6 +64,10 @@
       vtxf.u32.cn · 内容位于 blogs/ 目录 · 纯静态渲染
     </div>
   </footer>
+
+  <button id="back-top" type="button" aria-label="返回顶部" title="返回顶部" data-u32-name="返回顶部按钮" hidden>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+  </button>
 
   <div id="lightbox" data-u32-name="图片灯箱" hidden>
     <button class="lb-close" type="button" aria-label="关闭" data-u32-name="灯箱关闭按钮">

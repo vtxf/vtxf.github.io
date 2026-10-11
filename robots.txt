@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vtxf.u32.cn/sitemap.xml
