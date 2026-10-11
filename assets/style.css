@@ -76,9 +76,9 @@ a { color: var(--accent); }
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
-  padding-top: 30px;
-  padding-bottom: 24px;
+  gap: 14px;
+  padding-top: 18px;
+  padding-bottom: 14px;
 }
 
 /* ---------- 搜索框（头部） ---------- */
@@ -102,8 +102,8 @@ a { color: var(--accent); }
 
 .search-box input {
   width: 100%;
-  padding: 8px 34px 8px 33px;
-  font-size: 14px;
+  padding: 6px 34px 6px 33px;
+  font-size: 13.5px;
   font-family: inherit;
   color: var(--ink);
   background: #fff;
@@ -142,8 +142,8 @@ a { color: var(--accent); }
 #search-clear svg { width: 13px; height: 13px; }
 
 .avatar {
-  width: 58px;
-  height: 58px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   object-fit: cover;
   flex: none;
@@ -155,7 +155,7 @@ a { color: var(--accent); }
 
 .site-id h1 {
   margin: 0;
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1.3;
   letter-spacing: .3px;
 }
@@ -169,21 +169,21 @@ a { color: var(--accent); }
 .site-id h1 a:hover { color: var(--accent); }
 
 .site-id .subtitle {
-  margin: 3px 0 0;
+  margin: 2px 0 0;
   color: var(--ink-soft);
-  font-size: 13.5px;
+  font-size: 12.5px;
   letter-spacing: .4px;
 }
 
-.header-actions { display: flex; align-items: center; gap: 6px; flex: none; }
+.header-actions { display: flex; align-items: center; gap: 4px; flex: none; }
 
 .icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
   color: var(--ink-soft);
   text-decoration: none;
   transition: color .15s, background .15s;
@@ -191,11 +191,11 @@ a { color: var(--accent); }
 
 .icon-btn:hover { color: var(--accent); background: var(--accent-soft); }
 
-.icon-btn svg { width: 20px; height: 20px; }
+.icon-btn svg { width: 18px; height: 18px; }
 
 /* ---------- 列表工具栏（标签筛选） ---------- */
 
-.list-toolbar { padding-top: 16px; }
+.list-toolbar { padding-top: 28px; }
 
 .tag-bar {
   display: flex;
@@ -733,14 +733,21 @@ body.html-mode .site-footer { display: none; }
   position: sticky;
   top: 0;
   z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 10px 20px;
   background: rgba(255, 255, 255, .92);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
+}
+
+/* 工具条内容与站点其他视图对齐（880px 容器），只有下方 iframe 通栏最大化 */
+.html-bar-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
 }
 
 .html-bar .back {
@@ -948,11 +955,11 @@ a.c-value:hover { color: var(--accent); }
 @media (max-width: 640px) {
   .container { padding: 0 16px; }
 
-  .header-inner { padding-top: 22px; padding-bottom: 18px; gap: 12px; }
+  .header-inner { padding-top: 14px; padding-bottom: 11px; gap: 12px; }
 
-  .avatar { width: 46px; height: 46px; }
+  .avatar { width: 40px; height: 40px; }
 
-  .site-id h1 { font-size: 22px; }
+  .site-id h1 { font-size: 19px; }
 
   .search-box { order: 5; flex-basis: 100%; width: 100%; }
 
@@ -960,7 +967,7 @@ a.c-value:hover { color: var(--accent); }
 
   .post-item .post-title { font-size: 17.5px; }
 
-  .html-bar { padding: 9px 14px; gap: 10px; }
+  .html-bar-inner { padding: 7px 16px; gap: 10px; }
 
   .html-bar .open-btn span { display: none; }  /* 窄屏只留图标 */
 

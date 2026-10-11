@@ -585,7 +585,8 @@
 
     box.textContent = '';
     var bar = el('div', 'html-bar');
-    bar.setAttribute('data-u32-name', 'HTML文章工具条');
+    var inner = el('div', 'html-bar-inner');
+    inner.setAttribute('data-u32-name', 'HTML文章工具条内容');
     var back = el('a', 'back', '← 返回列表');
     back.href = '#/';
     var title = el('span', 'bar-title', p.title);
@@ -596,9 +597,10 @@
     open.setAttribute('data-u32-name', '新窗口打开按钮');
     open.appendChild(icon('external'));
     open.appendChild(el('span', null, '新窗口打开'));
-    bar.appendChild(back);
-    bar.appendChild(title);
-    bar.appendChild(open);
+    inner.appendChild(back);
+    inner.appendChild(title);
+    inner.appendChild(open);
+    bar.appendChild(inner);
     box.appendChild(bar);
 
     var frame = el('iframe', 'html-frame');
