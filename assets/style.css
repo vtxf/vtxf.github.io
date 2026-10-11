@@ -195,7 +195,7 @@ a { color: var(--accent); }
 
 /* ---------- 列表工具栏（标签筛选） ---------- */
 
-.list-toolbar { padding-top: 28px; }
+.list-toolbar { padding-top: 10px; }
 
 .tag-bar {
   display: flex;
