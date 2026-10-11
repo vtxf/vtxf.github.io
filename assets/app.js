@@ -723,7 +723,8 @@
     try { window.hljs.configure({ ignoreUnescapedHTML: true }); } catch (e) { /* 忽略 */ }
   }
 
-  fetch('posts.json').then(function (res) {
+  // 时间戳参数穿透 CDN 缓存，保证 push 后文章清单即刻生效
+  fetch('posts.json?ts=' + Date.now()).then(function (res) {
     if (!res.ok) throw new Error('posts.json 加载失败（HTTP ' + res.status + '）');
     return res.json();
   }).then(function (data) {
