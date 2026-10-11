@@ -198,6 +198,7 @@
         showList();
         return;
       }
+      h = h.replace(/^\//, '');  // '#/blogs/...' 与清单路径 'blogs/...' 对齐
       var p = POSTS.find(function (x) { return x.path === h; });
       if (p) {
         showPost(p);
@@ -221,6 +222,7 @@
       return res.json();
     }).then(function (data) {
       POSTS = (data && data.posts) || [];
+      renderList();
       window.addEventListener('hashchange', route);
       route();
     }).catch(function (err) {
